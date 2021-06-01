@@ -564,19 +564,13 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
     </references>
 
     <references title="Informative References">
-      <?rfc include='reference.RFC.4908'?>
-
       <?rfc include='reference.RFC.8499'?>
 
       <?rfc include='reference.RFC.6911'?>
 
       <?rfc include='reference.RFC.2131'?>
 
-      <?rfc include='reference.RFC.6824'?>
-
       <?rfc include='reference.RFC.5176'?>
-
-      <?rfc include='reference.RFC.6181'?>
 
       <?rfc include='reference.RFC.4014'?>
 

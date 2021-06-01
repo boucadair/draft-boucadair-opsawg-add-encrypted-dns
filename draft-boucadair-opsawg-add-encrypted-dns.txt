@@ -9,7 +9,7 @@ Expires: December 3, 2021
 
 
                   RADIUS Extensions for Encrypted DNS
-                   draft-boucadair-opsawg-add-00.xml
+            draft-boucadair-opsawg-add-encrypted-dns-latest
 
 Abstract
 
@@ -715,11 +715,11 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
               Information Option", RFC 4014, DOI 10.17487/RFC4014,
               February 2005, <https://www.rfc-editor.org/info/rfc4014>.
 
-   [RFC4908]  Nagami, K., Uda, S., Ogashiwa, N., Esaki, H., Wakikawa,
-              R., and H. Ohnishi, "Multi-homing for small scale fixed
-              network Using Mobile IP and NEMO", RFC 4908,
-              DOI 10.17487/RFC4908, June 2007,
-              <https://www.rfc-editor.org/info/rfc4908>.
+   [RFC5176]  Chiba, M., Dommety, G., Eklund, M., Mitton, D., and B.
+              Aboba, "Dynamic Authorization Extensions to Remote
+              Authentication Dial In User Service (RADIUS)", RFC 5176,
+              DOI 10.17487/RFC5176, January 2008,
+              <https://www.rfc-editor.org/info/rfc5176>.
 
 
 
@@ -729,22 +729,6 @@ Boucadair               Expires December 3, 2021               [Page 13]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
-
-   [RFC5176]  Chiba, M., Dommety, G., Eklund, M., Mitton, D., and B.
-              Aboba, "Dynamic Authorization Extensions to Remote
-              Authentication Dial In User Service (RADIUS)", RFC 5176,
-              DOI 10.17487/RFC5176, January 2008,
-              <https://www.rfc-editor.org/info/rfc5176>.
-
-   [RFC6181]  Bagnulo, M., "Threat Analysis for TCP Extensions for
-              Multipath Operation with Multiple Addresses", RFC 6181,
-              DOI 10.17487/RFC6181, March 2011,
-              <https://www.rfc-editor.org/info/rfc6181>.
-
-   [RFC6824]  Ford, A., Raiciu, C., Handley, M., and O. Bonaventure,
-              "TCP Extensions for Multipath Operation with Multiple
-              Addresses", RFC 6824, DOI 10.17487/RFC6824, January 2013,
-              <https://www.rfc-editor.org/info/rfc6824>.
 
    [RFC6911]  Dec, W., Ed., Sarikaya, B., Zorn, G., Ed., Miles, D., and
               B. Lourdelet, "RADIUS Attributes for IPv6 Access
@@ -776,6 +760,22 @@ Author's Address
    France
 
    Email: mohamed.boucadair@orange.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
