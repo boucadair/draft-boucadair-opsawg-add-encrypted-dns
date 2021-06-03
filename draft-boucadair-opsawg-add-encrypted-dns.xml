@@ -36,6 +36,26 @@
       </address>
     </author>
 
+    <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
+      <organization abbrev="McAfee">McAfee, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>Embassy Golf Link Business Park</street>
+
+          <city>Bangalore</city>
+
+          <region>Karnataka</region>
+
+          <code>560071</code>
+
+          <country>India</country>
+        </postal>
+
+        <email>kondtir@gmail.com</email>
+      </address>
+    </author>
+
     <date />
 
     <workgroup>opsawg</workgroup>
@@ -55,7 +75,7 @@
       resolvers to their customers. To that aim, ISPs deploy dedicated
       mechanisms to advertise a list of DNS Recursive DNS server(s) to their
       customers (e.g., DHCP, IPv6 Router Advertisement). The information used
-      to populate DHCP messages and/IPv6 Router Advertisements relies upon
+      to populate DHCP messages and/or IPv6 Router Advertisements relies upon
       specific Remote Authentication Dial-In User Service (RADIUS) <xref
       target="RFC2865"></xref> attributes such as the DNS-Server-IPv6-Address
       Attribute specified in <xref target="RFC6911"></xref>.</t>
@@ -64,12 +84,13 @@
       target="RFC8484"></xref>, DNS-over-TLS (DoT) <xref
       target="RFC7858"></xref>, or DNS-over-QUIC (DoQ) <xref
       target="I-D.ietf-dprive-dnsoquic"></xref>), additional means are
-      required to provision hosts with Encrypted DNS. To fill that void, <xref
-      target="I-D.ietf-add-dnr"></xref> leverages existing tools such as DHCP
-      and IPv6 Router Advertisement to provide hosts with the required
-      information to connect to an Encrypted DNS server. However, there are no
-      RADIUS attributes that can be used to populate the discovery messages
-      discussed in <xref target="I-D.ietf-add-dnr"></xref>.</t>
+      required to provision hosts with network-designated Encrypted DNS. To
+      fill that void, <xref target="I-D.ietf-add-dnr"></xref> leverages
+      existing protocols such as DHCP and IPv6 Router Advertisement to provide
+      hosts with the required information to connect to an Encrypted DNS
+      server. However, there are no RADIUS attributes that can be used to
+      populate the discovery messages discussed in <xref
+      target="I-D.ietf-add-dnr"></xref>.</t>
 
       <t>This document specifies two new RADIUS attributes: IPv6-Encrypted-DNS
       (<xref target="v6"></xref>) and IPv4-Encrypted-DNS (<xref
@@ -84,7 +105,7 @@
       target="RFC4014"></xref> or <xref target="RFC7037"></xref>, which allows
       a Network Access Server (NAS) to pass attributes obtained from a RADIUS
       server to a DHCP server. For illustration purposes, <xref
-      target="ex"></xref> shows an example where a CPE is provided with en
+      target="ex"></xref> shows an example where a CPE is provided with an
       Encrypted DNS server. This example assumes that the NAS embeds both
       RADIUS client and DHCPv6 server capabilities.</t>
 
@@ -121,13 +142,15 @@
       used by the NAS to complete the DHCPv6 procedure that the CPE initiated
       to retrieve information about the encrypted DNS service to use. The
       procedure defined in <xref target="I-D.ietf-add-dnr"></xref> is thus
-      followed between the DHCPv6 client and the DHCPv6 server. Upon change of
-      the any Encrypted DNS-related information (e.g., ADN, IPv6 address), the
-      RADIUS server sends a RADIUS CoA message <xref target="RFC5176"></xref>
-      that carries the RADIUS IPv6-Encrypted-DNS Attributed to the NAS. Once
-      that message is accepted by the NAS, it replies with a RADIUS CoA ACK
-      message. The NAS replaces the old Encrypted DNS server information with
-      the new one.</t>
+      followed between the DHCPv6 client on endpoints and the DHCPv6 server on
+      CPE. Upon change of the any Encrypted DNS-related information (e.g.,
+      ADN, IPv6 address), the RADIUS server sends a RADIUS CoA message <xref
+      target="RFC5176"></xref> that carries the RADIUS IPv6-Encrypted-DNS
+      Attributed to the NAS. Once that message is accepted by the NAS, it
+      replies with a RADIUS CoA ACK message. The NAS replaces the old
+      Encrypted DNS server information with the new one and sends a DHCPv6
+      Reconfigure message to cause the DHCPv6 client to initiate a Renew/Reply
+      message exchange with the DHCPv6 server. </t>
 
       <t><xref target="ex2"></xref> shows another example where a CPE is
       provided an Encrypted DNS server, but the CPE uses DHCPv4 to retrieve
@@ -456,7 +479,7 @@
               <t>Specifies a set of service parameters that are encoded
               following the rules in <xref target="I-D.ietf-add-dnr"></xref>.
               Service parameters may include, for example, a list of ALPN
-              protocol identifiers or alternate port numbers. T<vspace
+              protocol identifiers or alternate port numbers. <vspace
               blankLines="1" />The service parameters MUST NOT include
               "ipv4hint" or "ipv6hint" SvcParams as they are superseded by the
               included IP addresses.</t>
@@ -474,7 +497,7 @@
       <t>RADIUS-related security considerations are discussed in <xref
       target="RFC2865"></xref>.</t>
 
-      <t>Security consideration (including traffic theft) are discussed in
+      <t>Security considerations (including traffic theft) are discussed in
       <xref target="I-D.ietf-add-dnr"></xref>.</t>
     </section>
 
@@ -503,8 +526,6 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t></t>
-
       <section anchor="IANA-Att" title="New RADIUS Attributes">
         <t>IANA is requested to assign two new RADIUS attribute types from the
         IANA registry "Radius Attribute Types" located at
