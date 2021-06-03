@@ -17,7 +17,7 @@ Abstract
    This document specifies new Remote Authentication Dial-In User
    Service (RADIUS) attributes that carry the authentication domain
    name, a list of IP addresses, and a set of service parameters that
-   are returned to authorized users to reach encrypted DNS resolvers.
+   are returned to users to reach encrypted DNS resolvers.
 
 Status of This Memo
 
@@ -119,12 +119,12 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
    Typical deployment scenarios are similar to those described, for
    instance, in Section 2 of [RFC6911].  Some of these deployments may
-   rely on the mechanisms defined in [RFC4014] or [RFC7037], which
+   rely upon the mechanisms defined in [RFC4014] or [RFC7037], which
    allows a Network Access Server (NAS) to pass attributes obtained from
    a RADIUS server to a DHCP server.  For illustration purposes,
-   Figure 1 shows an example where a CPE is provided with an Encrypted
-   DNS server.  This example assumes that the NAS embeds both RADIUS
-   client and DHCPv6 server capabilities.
+   Figure 1 shows an example where a Customer Premises Equipment (CPE)
+   is provided with an Encrypted DNS server.  This example assumes that
+   the NAS embeds both RADIUS client and DHCPv6 server capabilities.
 
    +-------------+           +-------------+             +-------+
    |     CPE     |           |      NAS    |             |  AAA  |
@@ -155,13 +155,13 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
    (possibly after having sent a RADIUS Access-Challenge message and
    assuming the CPE is entitled to connect to the network) that carries
    a list of parameters to be used for this session, and which include
-   the encrypted DNS information.  The content of the IPv6-Encrypted-DNS
+   the Encrypted DNS information.  The content of the IPv6-Encrypted-DNS
    Attribute is then used by the NAS to complete the DHCPv6 procedure
    that the CPE initiated to retrieve information about the encrypted
    DNS service to use.  The procedure defined in [I-D.ietf-add-dnr] is
-   thus followed between the DHCPv6 client on endpoints and the DHCPv6
-   server on CPE.  Upon change of the any Encrypted DNS-related
-   information (e.g., ADN, IPv6 address), the RADIUS server sends a
+   thus followed between the DHCPv6 client and the DHCPv6 server.  The
+   same procedure is followed between the DHCPv6 client on endpoints
+   serviced by the CPE and the DHCPv6 server on CPE.
 
 
 
@@ -170,12 +170,14 @@ Boucadair & Reddy       Expires December 5, 2021                [Page 3]
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
-   RADIUS CoA message [RFC5176] that carries the RADIUS IPv6-Encrypted-
-   DNS Attributed to the NAS.  Once that message is accepted by the NAS,
-   it replies with a RADIUS CoA ACK message.  The NAS replaces the old
-   Encrypted DNS server information with the new one and sends a DHCPv6
-   Reconfigure message to cause the DHCPv6 client to initiate a Renew/
-   Reply message exchange with the DHCPv6 server.
+   Upon change of the any Encrypted DNS-related information (e.g., ADN,
+   IPv6 address), the RADIUS server sends a RADIUS CoA message [RFC5176]
+   that carries the RADIUS IPv6-Encrypted-DNS Attributed to the NAS.
+   Once that message is accepted by the NAS, it replies with a RADIUS
+   CoA ACK message.  The NAS replaces the old Encrypted DNS server
+   information with the new one and sends a DHCPv6 Reconfigure message
+   to cause the DHCPv6 client to initiate a Renew/Reply message exchange
+   with the DHCPv6 server.
 
    Figure 2 shows another example where a CPE is provided an Encrypted
    DNS server, but the CPE uses DHCPv4 to retrieve its encrypted DNS
@@ -206,18 +208,16 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
                         Figure 2: IPv4 Flow Example
 
    For the particular case of DoH [RFC8484], the attributes defined in
-   Section 3 can be used for redirection purposes.  For example, some
-   DoH bootstrapping may rely upon trusted DoH servers.  These DoH
-   servers may then redirect DoH clients to other DoH servers (e.g.,
-   local forwarders hosted by a CPE).  To that aim, when a DoH query is
+   Section 3 can also be used for redirection purposes.  For example, a
+   DoH server may redirect DoH clients to other DoH servers (e.g., local
+   forwarders hosted by a CPE).  To that aim, when a DoH query is
    received from a DoH client, the DoH servers interacts with an AAA
-   server t o check whether redirection should be enabled for this
+   server to check whether redirection should be enabled for this
    client.  If such redirection is to be enabled, the AAA server returns
    IPv4-Encrypted-DNS and/or IPv6-Encrypted-DNS Attributes that will be
-   used to populate the DoH redirection response that will be sent to
-   the DoH client.  Given that redirection is instructed by a trusted
-   DoH server, the DoH client will contact the DoH server using the
-   information supplied in the redirection response.
+   used to populate the DoH redirection response that will then be sent
+   to the DoH client.  The DoH client may contact the DoH server using
+   the information supplied in the redirection response.
 
 
 
