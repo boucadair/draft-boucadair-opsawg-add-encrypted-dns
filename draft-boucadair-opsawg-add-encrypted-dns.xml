@@ -62,9 +62,9 @@
 
     <abstract>
       <t>This document specifies new Remote Authentication Dial-In User
-      Service (RADIUS) attributes that carry the authentication domain name, a
-      list of IP addresses, and a set of service parameters that are returned
-      to users to reach encrypted DNS resolvers.<!--
+      Service (RADIUS) attributes that carry an authentication domain name, a
+      list of IP addresses, and a set of service parameters of encrypted DNS
+      resolvers.<!--
 --></t>
     </abstract>
   </front>
@@ -110,23 +110,24 @@
       that the NAS embeds both RADIUS client and DHCPv6 server
       capabilities.</t>
 
-      <t><figure align="center" anchor="ex" title="IPv6 Flow Example">
+      <t><figure align="center" anchor="ex"
+          title="Example of RADIUS IPv6 Encrypted DNS">
           <artwork><![CDATA[+-------------+           +-------------+             +-------+
-|     CPE     |           |      NAS    |             |  AAA  |
+|     CPE     |           |     NAS     |             |  AAA  |
 |DHCPv6 client|           |DHCPv6 server|             |Server |
 +------+------+           +------+------+             +---+---+
        |                         |                        |
-       |-----DHCPv6 Solicit----->|                        |
-       |                         |----Access-Request ---->|
+       o-----DHCPv6 Solicit----->|                        |
+       |                         o----Access-Request ---->|
        |                         |                        |
-       |                         |<----Access-Accept------|
+       |                         |<----Access-Accept------o
        |                         |  IPv6-Encrypted-DNS    |
-       |<--DHCPv6 Advertisement--|                        |
+       |<--DHCPv6 Advertisement--o                        |
        |     (OPTION_V6_DNR)     |                        |
        |                         |                        |
-       |-----DHCPv6 Request----->|                        |
+       o-----DHCPv6 Request----->|                        |
        |                         |                        |
-       |<------DHCPv6 Reply------|                        |
+       |<------DHCPv6 Reply------o                        |
        |     (OPTION_V6_DNR)     |                        |
        |                         |                        |
 
@@ -160,24 +161,25 @@
       provided an Encrypted DNS server, but the CPE uses DHCPv4 to retrieve
       its encrypted DNS server.</t>
 
-      <t><figure align="center" anchor="ex2" title="IPv4 Flow Example">
+      <t><figure align="center" anchor="ex2"
+          title="Example of RADIUS IPv4 Encrypted DNS">
           <artwork><![CDATA[+-------------+           +-------------+             +-------+
-|     CPE     |           |      NAS    |             |  AAA  |
+|     CPE     |           |     NAS     |             |  AAA  |
 |DHCPv4 client|           |DHCPv4 server|             |Server |
 +------+------+           +------+------+             +---+---+
        |                         |                        |
-       |------DHCPDISCOVER------>|                        |
-       |                         |----Access-Request ---->|
+       o------DHCPDISCOVER------>|                        |
+       |                         o----Access-Request ---->|
        |                         |                        |
-       |                         |<----Access-Accept------|
+       |                         |<----Access-Accept------o
        |                         |  IPv4-Encrypted-DNS    |
-       |<-----DHCPOFFER----------|                        |
+       |<-----DHCPOFFER----------o                        |
        |     (OPTION_V4_DNR)     |                        |
        |                         |                        |
-       |-----DHCPREQUEST-------->|                        |
+       o-----DHCPREQUEST-------->|                        |
        |     (OPTION_V4_DNR)     |                        |
        |                         |                        |
-       |<-------DHCPACK----------|                        |
+       |<-------DHCPACK----------o                        |
        |     (OPTION_V4_DNR)     |                        |
        |                         |                        |
 
@@ -203,17 +205,21 @@
 |Client |                   |Server |                    |Server |
 +---+---+                   +---+---+                    +---+---+
     |                           |                            |
-    |---DoH Query-------------->|                            |
-    |                           |---Access-Request---------->|
-    |                           |<--Access-Accept------------|
+    o---DoH Query-------------->|                            |
+    |                           o---Access-Request---------->|
+    |                           |<--Access-Accept------------o
     |                           |    IPv4-Encrypted-DNS/     |
-    |<--------------------------|    IPv6-Encrypted-DNS      |
+    |<--------------------------o    IPv6-Encrypted-DNS      |
     | Redirect to (ADN,         |                            |
     |        IP addresses,      |                            |  
     |        service parameters)|                            | 
     |                           |                            | 
 ]]></artwork>
         </figure></t>
+
+      <t>Other deployment scenarios can be envisaged, however it is out of the
+      scope of this document to provide a comprehensive list of those
+      deployments.</t>
 
       <t>This document adheres to <xref target="RFC8044"></xref> for defining
       the new attributes.</t>
@@ -235,8 +241,6 @@
           DNS-over-HTTPS (DoH) <xref target="RFC8484"></xref>, or
           DNS-over-QUIC (DoQ) <xref
           target="I-D.ietf-dprive-dnsoquic"></xref>.</t>
-
-          <t hangText="DHCP:">refers to both DHCPv4 and DHCPv6.</t>
         </list></t>
     </section>
 
@@ -263,11 +267,11 @@
         <t>This attribute is of type "tlv" as defined in Section 2.3 of <xref
         target="RFC6929"></xref>.</t>
 
-        <t>The IPv6-Encrypted-DNS attribute includes the authentication domain
+        <t>The IPv6-Encrypted-DNS Attribute includes the authentication domain
         name, a list of IPv6 addresses, and a set of service parameters of an
         encrypted DNS resolver.</t>
 
-        <t>Because multiple IPv6-Encrypted-DNS attributes may be provisioned
+        <t>Because multiple IPv6-Encrypted-DNS Attributes may be provisioned
         to a requesting host, multiple instances of the IPv6-Encrypted-DNS
         attribute MAY be included; each instance of the attribute carries a
         distinct Encrypted DNS server.</t>
@@ -306,16 +310,16 @@
             <t>This field contains a set of TLVs as follows:<list
                 style="hanging">
                 <t hangText="Encrypted-DNS-ADN TLV:">The IPv6-Encrypted-DNS
-                attribute MUST include exactly one instance of
+                Attribute MUST include exactly one instance of
                 Encrypted-DNS-ADN TLV (<xref target="adn"></xref>).</t>
 
                 <t hangText="Encrypted-DNS-IPv6-Address TLV:">The
-                IPv6-Encrypted-DNS attribute MUST include one or multiple
+                IPv6-Encrypted-DNS Attribute MUST include one or multiple
                 instances of Encrypted-DNS-IPv6-Address TLV (<xref
                 target="v6locator"></xref>).</t>
 
                 <t hangText="Encrypted-DNS-SvcParams TLV:">The
-                IPv6-Encrypted-DNS attribute SHOULD include one instance of
+                IPv6-Encrypted-DNS Attribute SHOULD include one instance of
                 Encrypted-DNS-SvcParams TLV (<xref
                 target="svcparams"></xref>).</t>
               </list></t>
@@ -329,7 +333,7 @@
         <t>This attribute is of type "tlv" as defined in Section 2.3 of <xref
         target="RFC6929"></xref>.</t>
 
-        <t>The IPv4-Encrypted-DNS attribute includes the authentication domain
+        <t>The IPv4-Encrypted-DNS Attribute includes the authentication domain
         name, a list of IPv4 addresses, and a set of service parameters of an
         encrypted DNS resolver.</t>
 
@@ -372,16 +376,16 @@
             <t>This field contains a set of TLVs as follows:<list
                 style="hanging">
                 <t hangText="Encrypted-DNS-ADN TLV:">The IPv4-Encrypted-DNS
-                attribute MUST include exactly one instance of
+                Attribute MUST include exactly one instance of
                 Encrypted-DNS-ADN TLV (<xref target="adn"></xref>).</t>
 
                 <t hangText="Encrypted-DNS-IPv4-Address TLV:">The
-                IPv4-Encrypted-DNS attribute MUST include one or multiple
+                IPv4-Encrypted-DNS Attribute MUST include one or multiple
                 instances of Encrypted-DNS-IPv4-Address TLV (<xref
                 target="v4locator"></xref>).</t>
 
                 <t hangText="Encrypted-DNS-SvcParams TLV:">The
-                IPv4-Encrypted-DNS attribute SHOULD include one instance of
+                IPv4-Encrypted-DNS Attribute SHOULD include one instance of
                 Encrypted-DNS-SvcParams TLV (<xref
                 target="svcparams"></xref>).</t>
               </list></t>
@@ -561,7 +565,7 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>TBC.</t>
+      <t>Thanks to Christian Jacquenet for the review.</t>
     </section>
   </middle>
 
