@@ -4,8 +4,9 @@
 
 opsawg                                                      M. Boucadair
 Internet-Draft                                                    Orange
-Intended status: Standards Track                            June 1, 2021
-Expires: December 3, 2021
+Intended status: Standards Track                                T. Reddy
+Expires: December 5, 2021                                         McAfee
+                                                            June 3, 2021
 
 
                   RADIUS Extensions for Encrypted DNS
@@ -33,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 3, 2021.
+   This Internet-Draft will expire on December 5, 2021.
 
 Copyright Notice
 
@@ -52,8 +53,7 @@ Copyright Notice
 
 
 
-
-Boucadair               Expires December 3, 2021                [Page 1]
+Boucadair & Reddy       Expires December 5, 2021                [Page 1]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -79,7 +79,7 @@ Table of Contents
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
      8.2.  Informative References  . . . . . . . . . . . . . . . . .  13
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -87,7 +87,7 @@ Table of Contents
    resolvers to their customers.  To that aim, ISPs deploy dedicated
    mechanisms to advertise a list of DNS Recursive DNS server(s) to
    their customers (e.g., DHCP, IPv6 Router Advertisement).  The
-   information used to populate DHCP messages and/IPv6 Router
+   information used to populate DHCP messages and/or IPv6 Router
    Advertisements relies upon specific Remote Authentication Dial-In
    User Service (RADIUS) [RFC2865] attributes such as the DNS-Server-
    IPv6-Address Attribute specified in [RFC6911].
@@ -95,12 +95,12 @@ Table of Contents
    With the advent of Encrypted DNS (e.g., DNS-over-HTTPS (DoH)
    [RFC8484], DNS-over-TLS (DoT) [RFC7858], or DNS-over-QUIC (DoQ)
    [I-D.ietf-dprive-dnsoquic]), additional means are required to
-   provision hosts with Encrypted DNS.  To fill that void,
-   [I-D.ietf-add-dnr] leverages existing tools such as DHCP and IPv6
-   Router Advertisement to provide hosts with the required information
-   to connect to an Encrypted DNS server.  However, there are no RADIUS
-   attributes that can be used to populate the discovery messages
-   discussed in [I-D.ietf-add-dnr].
+   provision hosts with network-designated Encrypted DNS.  To fill that
+   void, [I-D.ietf-add-dnr] leverages existing protocols such as DHCP
+   and IPv6 Router Advertisement to provide hosts with the required
+   information to connect to an Encrypted DNS server.  However, there
+   are no RADIUS attributes that can be used to populate the discovery
+   messages discussed in [I-D.ietf-add-dnr].
 
    This document specifies two new RADIUS attributes: IPv6-Encrypted-DNS
    (Section 3.1) and IPv4-Encrypted-DNS (Section 3.2) Attributes.  Note
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Boucadair               Expires December 3, 2021                [Page 2]
+Boucadair & Reddy       Expires December 5, 2021                [Page 2]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -122,7 +122,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
    rely on the mechanisms defined in [RFC4014] or [RFC7037], which
    allows a Network Access Server (NAS) to pass attributes obtained from
    a RADIUS server to a DHCP server.  For illustration purposes,
-   Figure 1 shows an example where a CPE is provided with en Encrypted
+   Figure 1 shows an example where a CPE is provided with an Encrypted
    DNS server.  This example assumes that the NAS embeds both RADIUS
    client and DHCPv6 server capabilities.
 
@@ -159,21 +159,23 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
    Attribute is then used by the NAS to complete the DHCPv6 procedure
    that the CPE initiated to retrieve information about the encrypted
    DNS service to use.  The procedure defined in [I-D.ietf-add-dnr] is
-   thus followed between the DHCPv6 client and the DHCPv6 server.  Upon
-   change of the any Encrypted DNS-related information (e.g., ADN, IPv6
-   address), the RADIUS server sends a RADIUS CoA message [RFC5176] that
+   thus followed between the DHCPv6 client on endpoints and the DHCPv6
+   server on CPE.  Upon change of the any Encrypted DNS-related
+   information (e.g., ADN, IPv6 address), the RADIUS server sends a
 
 
 
-Boucadair               Expires December 3, 2021                [Page 3]
+Boucadair & Reddy       Expires December 5, 2021                [Page 3]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
-   carries the RADIUS IPv6-Encrypted-DNS Attributed to the NAS.  Once
-   that message is accepted by the NAS, it replies with a RADIUS CoA ACK
-   message.  The NAS replaces the old Encrypted DNS server information
-   with the new one.
+   RADIUS CoA message [RFC5176] that carries the RADIUS IPv6-Encrypted-
+   DNS Attributed to the NAS.  Once that message is accepted by the NAS,
+   it replies with a RADIUS CoA ACK message.  The NAS replaces the old
+   Encrypted DNS server information with the new one and sends a DHCPv6
+   Reconfigure message to cause the DHCPv6 client to initiate a Renew/
+   Reply message exchange with the DHCPv6 server.
 
    Figure 2 shows another example where a CPE is provided an Encrypted
    DNS server, but the CPE uses DHCPv4 to retrieve its encrypted DNS
@@ -219,9 +221,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-
-
-Boucadair               Expires December 3, 2021                [Page 4]
+Boucadair & Reddy       Expires December 5, 2021                [Page 4]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -277,7 +277,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021                [Page 5]
+Boucadair & Reddy       Expires December 5, 2021                [Page 5]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -333,7 +333,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021                [Page 6]
+Boucadair & Reddy       Expires December 5, 2021                [Page 6]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -389,7 +389,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021                [Page 7]
+Boucadair & Reddy       Expires December 5, 2021                [Page 7]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -445,7 +445,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021                [Page 8]
+Boucadair & Reddy       Expires December 5, 2021                [Page 8]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -501,7 +501,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021                [Page 9]
+Boucadair & Reddy       Expires December 5, 2021                [Page 9]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -557,13 +557,13 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021               [Page 10]
+Boucadair & Reddy       Expires December 5, 2021               [Page 10]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
       for example, a list of ALPN protocol identifiers or alternate port
-      numbers.  T
+      numbers.
 
       The service parameters MUST NOT include "ipv4hint" or "ipv6hint"
       SvcParams as they are superseded by the included IP addresses.
@@ -576,7 +576,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
    RADIUS-related security considerations are discussed in [RFC2865].
 
-   Security consideration (including traffic theft) are discussed in
+   Security considerations (including traffic theft) are discussed in
    [I-D.ietf-add-dnr].
 
 5.  Table of Attributes
@@ -613,7 +613,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021               [Page 11]
+Boucadair & Reddy       Expires December 5, 2021               [Page 11]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -669,7 +669,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021               [Page 12]
+Boucadair & Reddy       Expires December 5, 2021               [Page 12]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -725,7 +725,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair               Expires December 3, 2021               [Page 13]
+Boucadair & Reddy       Expires December 5, 2021               [Page 13]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -752,7 +752,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
               Terminology", BCP 219, RFC 8499, DOI 10.17487/RFC8499,
               January 2019, <https://www.rfc-editor.org/info/rfc8499>.
 
-Author's Address
+Authors' Addresses
 
    Mohamed Boucadair
    Orange
@@ -762,6 +762,13 @@ Author's Address
    Email: mohamed.boucadair@orange.com
 
 
+   Tirumaleswar Reddy
+   McAfee, Inc.
+   Embassy Golf Link Business Park
+   Bangalore, Karnataka  560071
+   India
+
+   Email: kondtir@gmail.com
 
 
 
@@ -774,11 +781,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-Boucadair               Expires December 3, 2021               [Page 14]
+Boucadair & Reddy       Expires December 5, 2021               [Page 14]
