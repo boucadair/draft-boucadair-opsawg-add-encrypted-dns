@@ -186,40 +186,9 @@
                DHCPv4                      RADIUS]]></artwork>
         </figure></t>
 
-      <t>For the particular case of DoH <xref target="RFC8484"></xref>, the
-      attributes defined in <xref target="att"></xref> can also be used for
-      redirection purposes. For example, a DoH server may redirect DoH clients
-      to other DoH servers (e.g., local forwarders hosted by a CPE). To that
-      aim, when a DoH query is received from a DoH client, the DoH servers
-      interacts with an AAA server to check whether redirection should be
-      enabled for this client. If such redirection is to be enabled, the AAA
-      server returns IPv4-Encrypted-DNS and/or IPv6-Encrypted-DNS Attributes
-      that will be used to populate the DoH redirection response that will
-      then be sent to the DoH client. The DoH client may contact the DoH
-      server using the information supplied in the redirection response.</t>
-
-      <t><figure align="center" anchor="doh-redirect"
-          title="Example of DoH Redirection">
-          <artwork><![CDATA[+-------+                   +-------+                    +-------+
-|  DoH  |                   |  DoH  |                    |  AAA  |
-|Client |                   |Server |                    |Server |
-+---+---+                   +---+---+                    +---+---+
-    |                           |                            |
-    o---DoH Query-------------->|                            |
-    |                           o---Access-Request---------->|
-    |                           |<--Access-Accept------------o
-    |                           |    IPv4-Encrypted-DNS/     |
-    |<--------------------------o    IPv6-Encrypted-DNS      |
-    | Redirect to (ADN,         |                            |
-    |        IP addresses,      |                            |  
-    |        service parameters)|                            | 
-    |                           |                            | 
-]]></artwork>
-        </figure></t>
-
-      <t>Other deployment scenarios can be envisaged, however it is out of the
-      scope of this document to provide a comprehensive list of those
-      deployments.</t>
+      <t>Other deployment scenarios can be envisaged (e.g., <xref
+      target="app"></xref>), however it is out of the scope of this document
+      to provide a comprehensive list of those deployments.</t>
 
       <t>This document adheres to <xref target="RFC8044"></xref> for defining
       the new attributes.</t>
@@ -241,6 +210,13 @@
           DNS-over-HTTPS (DoH) <xref target="RFC8484"></xref>, or
           DNS-over-QUIC (DoQ) <xref
           target="I-D.ietf-dprive-dnsoquic"></xref>.</t>
+
+          <t hangText="*-Encrypted-DNS">refers to IPv6-Encrypted-DNS and
+          IPv4-Encrypted-DNS Attributes.</t>
+
+          <t hangText="Encrypted-DNS-*">refers to any of these attributes:
+          Encrypted-DNS-ADN, Encrypted-DNS-IPv6-Address,
+          Encrypted-DNS-IPv4-Address, and Encrypted-DNS-SvcParams.</t>
         </list></t>
     </section>
 
@@ -263,13 +239,17 @@
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+]]></artwork>
         </figure></t>
 
+      <t>The value field of *-Encrypted-DNS and Encrypted-DNS-* Attributes is
+      encoded in clear and not encrypted as, for example, Tunnel-Password
+      Attribute <xref target="RFC2868"></xref>.</t>
+
       <section anchor="v6" title="IPv6-Encrypted-DNS Attribute">
         <t>This attribute is of type "tlv" as defined in Section 2.3 of <xref
         target="RFC6929"></xref>.</t>
 
         <t>The IPv6-Encrypted-DNS Attribute includes the authentication domain
         name, a list of IPv6 addresses, and a set of service parameters of an
-        encrypted DNS resolver.</t>
+        encrypted DNS resolver <xref target="I-D.ietf-add-dnr"></xref>.</t>
 
         <t>Because multiple IPv6-Encrypted-DNS Attributes may be provisioned
         to a requesting host, multiple instances of the IPv6-Encrypted-DNS
@@ -335,7 +315,7 @@
 
         <t>The IPv4-Encrypted-DNS Attribute includes the authentication domain
         name, a list of IPv4 addresses, and a set of service parameters of an
-        encrypted DNS resolver.</t>
+        encrypted DNS resolver <xref target="I-D.ietf-add-dnr"></xref>.</t>
 
         <t>Because multiple IPv4-Encrypted-DNS attributes may be provisioned
         to a requesting host, multiple instances of the IPv4-Encrypted-DNS
@@ -483,12 +463,12 @@
 
           <t>TLV-Value<list style="empty">
               <t>Specifies a set of service parameters that are encoded
-              following the rules in <xref target="I-D.ietf-add-dnr"></xref>.
-              Service parameters may include, for example, a list of ALPN
-              protocol identifiers or alternate port numbers. <vspace
-              blankLines="1" />The service parameters MUST NOT include
-              "ipv4hint" or "ipv6hint" SvcParams as they are superseded by the
-              included IP addresses.</t>
+              following the rules in <xref
+              target="I-D.ietf-dnsop-svcb-https"></xref>. Service parameters
+              may include, for example, a list of ALPN protocol identifiers or
+              alternate port numbers. <vspace blankLines="1" />The service
+              parameters MUST NOT include "ipv4hint" or "ipv6hint" SvcParams
+              as they are superseded by the included IP addresses.</t>
             </list></t>
 
           <t>This TLV is identified as 241.TBA1.TBA6 when included in the
@@ -502,6 +482,11 @@
     <section anchor="Security" title="Security Considerations">
       <t>RADIUS-related security considerations are discussed in <xref
       target="RFC2865"></xref>.</t>
+
+      <t>This document targets deployments where a trusted relationship is in
+      place between the RADIUS client and server with communication optionally
+      secured by IPsec or Transport Layer Security (TLS) <xref
+      target="RFC6614"></xref>. </t>
 
       <t>Security considerations (including traffic theft) are discussed in
       <xref target="I-D.ietf-add-dnr"></xref>.</t>
@@ -550,7 +535,7 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
 
       <section anchor="IANA-TLV" title="New RADIUS TLVs">
         <t>IANA is requested to create a new registry called "RADIUS Encrypted
-        DNS TLVs". The registry is initillay populated as follows:<figure>
+        DNS TLVs". The registry is initially populated as follows:<figure>
             <artwork><![CDATA[Value    Description                  Data Type    Reference
 -----    -------------------------    ---------    -------------
   0      Reserved
@@ -565,7 +550,8 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>Thanks to Christian Jacquenet for the review.</t>
+      <t>Thanks to Christian Jacquenet, Neil Cook, and Alan Dekok for the
+      review and suggestions.</t>
     </section>
   </middle>
 
@@ -584,6 +570,8 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
       <?rfc include='reference.RFC.8174'?>
 
       <?rfc include='reference.I-D.ietf-add-dnr'?>
+
+      <?rfc include='reference.I-D.ietf-dnsop-svcb-https'?>
 
       <?rfc include='reference.RFC.6929'?>
 
@@ -608,6 +596,49 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
       <?rfc include='reference.RFC.7858'?>
 
       <?rfc include='reference.I-D.ietf-dprive-dnsoquic'?>
+
+      <?rfc include='reference.RFC.2868'?>
+
+      <?rfc include='reference.RFC.6614'?>
     </references>
+
+    <section anchor="app" title="Other Usages of the Attributes">
+      <t>For the particular case of DoH <xref target="RFC8484"></xref>, the
+      attributes defined in <xref target="att"></xref> can also be used for
+      many purposes. For example, a DoH server may redirect DoH clients to
+      other DoH servers (e.g., local forwarders hosted by a CPE). To that aim,
+      when a DoH query is received from a DoH client, the DoH servers
+      interacts with an AAA server to check whether redirection should be
+      enabled for this client. If such redirection is to be enabled, the AAA
+      server returns IPv4-Encrypted-DNS and/or IPv6-Encrypted-DNS Attributes
+      that will be used to populate the DoH redirection response that will
+      then be sent to the DoH client. The DoH client may contact the DoH
+      server using the information supplied in the redirection response.</t>
+
+      <t><figure align="center" anchor="doh-redirect"
+          title="Example of DoH Redirection">
+          <artwork><![CDATA[+-------+                   +-------+                    +-------+
+|  DoH  |                   |  DoH  |                    |  AAA  |
+|Client |                   |Server |                    |Server |
++---+---+                   +---+---+                    +---+---+
+    |                           |                            |
+    o---DoH Query-------------->|                            |
+    |                           o---Access-Request---------->|
+    |                           |<--Access-Accept------------o
+    |                           |    IPv4-Encrypted-DNS/     |
+    |<--------------------------o    IPv6-Encrypted-DNS      |
+    | Redirect to (ADN,         |                            |
+    |        IP addresses,      |                            |  
+    |        service parameters)|                            | 
+    |                           |                            | 
+]]></artwork>
+        </figure></t>
+
+      <t>Another use case for the RADIUS extensions defined in this document
+      is to return a customized service parameters (e.g., different DoH URI)
+      as a function of the service/policies/preferences that are set by a home
+      network admin. How an admin indicates its service/policies/preferences
+      to an AAA server is out of scope. </t>
+    </section>
   </back>
 </rfc>
