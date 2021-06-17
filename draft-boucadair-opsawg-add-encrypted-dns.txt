@@ -5,8 +5,8 @@
 opsawg                                                      M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: December 12, 2021                                        McAfee
-                                                           June 10, 2021
+Expires: December 19, 2021                                        McAfee
+                                                           June 17, 2021
 
 
                   RADIUS Extensions for Encrypted DNS
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 12, 2021.
+   This Internet-Draft will expire on December 19, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Boucadair & Reddy       Expires December 12, 2021               [Page 1]
+Boucadair & Reddy       Expires December 19, 2021               [Page 1]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -61,9 +61,9 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Encrypted DNS RADIUS Attributes . . . . . . . . . . . . . . .   5
-     3.1.  IPv6-Encrypted-DNS Attribute  . . . . . . . . . . . . . .   5
+     3.1.  IPv6-Encrypted-DNS Attribute  . . . . . . . . . . . . . .   6
      3.2.  IPv4-Encrypted-DNS Attribute  . . . . . . . . . . . . . .   7
      3.3.  RADIUS TLVs for Encrypted DNS . . . . . . . . . . . . . .   8
        3.3.1.  Encrypted-DNS-ADN TLV . . . . . . . . . . . . . . . .   8
@@ -79,8 +79,7 @@ Table of Contents
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
      8.2.  Informative References  . . . . . . . . . . . . . . . . .  13
-   Appendix A.  Other Usages of the Attributes . . . . . . . . . . .  14
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -109,7 +108,8 @@ Table of Contents
 
 
 
-Boucadair & Reddy       Expires December 12, 2021               [Page 2]
+
+Boucadair & Reddy       Expires December 19, 2021               [Page 2]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -165,7 +165,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 12, 2021               [Page 3]
+Boucadair & Reddy       Expires December 19, 2021               [Page 3]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -207,25 +207,30 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
               Figure 2: Example of RADIUS IPv4 Encrypted DNS
 
-   Other deployment scenarios can be envisaged (e.g., Appendix A),
-   however it is out of the scope of this document to provide a
-   comprehensive list of those deployments.
+   Other deployment scenarios can be envisaged such as returning
+   customized service parameters (e.g., different DoH URI) as a function
+   of the service/policies/preferences that are set by a home network
+   admin.  How an admin indicates its service/policies/preferences to an
+   AAA server is out of scope.
 
    This document adheres to [RFC8044] for defining the new attributes.
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires December 19, 2021               [Page 4]
+
+Internet-Draft          RADIUS for Encrypted DNS               June 2021
+
 
 2.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
    "OPTIONAL" in this document are to be interpreted as described in BCP
-
-
-
-Boucadair & Reddy       Expires December 12, 2021               [Page 4]
-
-Internet-Draft          RADIUS for Encrypted DNS               June 2021
-
-
    14 [RFC2119][RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
@@ -267,20 +272,20 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
    encoded in clear and not encrypted as, for example, Tunnel-Password
    Attribute [RFC2868].
 
+
+
+
+
+
+Boucadair & Reddy       Expires December 19, 2021               [Page 5]
+
+Internet-Draft          RADIUS for Encrypted DNS               June 2021
+
+
 3.1.  IPv6-Encrypted-DNS Attribute
 
    This attribute is of type "tlv" as defined in Section 2.3 of
    [RFC6929].
-
-
-
-
-
-
-Boucadair & Reddy       Expires December 12, 2021               [Page 5]
-
-Internet-Draft          RADIUS for Encrypted DNS               June 2021
-
 
    The IPv6-Encrypted-DNS Attribute includes the authentication domain
    name, a list of IPv6 addresses, and a set of service parameters of an
@@ -325,18 +330,17 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
       This field contains a set of TLVs as follows:
 
-      Encrypted-DNS-ADN TLV:  The IPv6-Encrypted-DNS Attribute MUST
-         include exactly one instance of Encrypted-DNS-ADN TLV
-         (Section 3.3.1).
 
 
 
-
-
-Boucadair & Reddy       Expires December 12, 2021               [Page 6]
+Boucadair & Reddy       Expires December 19, 2021               [Page 6]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
+
+      Encrypted-DNS-ADN TLV:  The IPv6-Encrypted-DNS Attribute MUST
+         include exactly one instance of Encrypted-DNS-ADN TLV
+         (Section 3.3.1).
 
       Encrypted-DNS-IPv6-Address TLV:  The IPv6-Encrypted-DNS Attribute
          MUST include one or multiple instances of Encrypted-DNS-
@@ -383,16 +387,14 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
       241
 
-   Length
 
 
-
-
-
-Boucadair & Reddy       Expires December 12, 2021               [Page 7]
+Boucadair & Reddy       Expires December 19, 2021               [Page 7]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
+
+   Length
 
       This field indicates the total length, in octets, of all fields of
       this attribute, including the Type, Length, Extended-Type, and the
@@ -441,14 +443,14 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
       Length of included ADN + 2 octets.
 
-   Data Type
 
 
-
-Boucadair & Reddy       Expires December 12, 2021               [Page 8]
+Boucadair & Reddy       Expires December 19, 2021               [Page 8]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
+
+   Data Type
 
       The Encrypted-DNS-ADN TLV is of type text (Section 3.4 of
       [RFC8044]).
@@ -497,14 +499,14 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
    TLV-Length
 
-      6
 
 
-
-Boucadair & Reddy       Expires December 12, 2021               [Page 9]
+Boucadair & Reddy       Expires December 19, 2021               [Page 9]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
+
+      6
 
    Data Type
 
@@ -555,9 +557,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-
-
-Boucadair & Reddy       Expires December 12, 2021              [Page 10]
+Boucadair & Reddy       Expires December 19, 2021              [Page 10]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -613,7 +613,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 12, 2021              [Page 11]
+Boucadair & Reddy       Expires December 19, 2021              [Page 11]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -669,7 +669,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 12, 2021              [Page 12]
+Boucadair & Reddy       Expires December 19, 2021              [Page 12]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -725,7 +725,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 12, 2021              [Page 13]
+Boucadair & Reddy       Expires December 19, 2021              [Page 13]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -763,52 +763,6 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
               Terminology", BCP 219, RFC 8499, DOI 10.17487/RFC8499,
               January 2019, <https://www.rfc-editor.org/info/rfc8499>.
 
-Appendix A.  Other Usages of the Attributes
-
-   For the particular case of DoH [RFC8484], the attributes defined in
-   Section 3 can also be used for many purposes.  For example, a DoH
-   server may redirect DoH clients to other DoH servers (e.g., local
-   forwarders hosted by a CPE).  To that aim, when a DoH query is
-   received from a DoH client, the DoH servers interacts with an AAA
-   server to check whether redirection should be enabled for this
-   client.  If such redirection is to be enabled, the AAA server returns
-   IPv4-Encrypted-DNS and/or IPv6-Encrypted-DNS Attributes that will be
-   used to populate the DoH redirection response that will then be sent
-   to the DoH client.  The DoH client may contact the DoH server using
-   the information supplied in the redirection response.
-
-
-
-
-
-Boucadair & Reddy       Expires December 12, 2021              [Page 14]
-
-Internet-Draft          RADIUS for Encrypted DNS               June 2021
-
-
-   +-------+                   +-------+                    +-------+
-   |  DoH  |                   |  DoH  |                    |  AAA  |
-   |Client |                   |Server |                    |Server |
-   +---+---+                   +---+---+                    +---+---+
-       |                           |                            |
-       o---DoH Query-------------->|                            |
-       |                           o---Access-Request---------->|
-       |                           |<--Access-Accept------------o
-       |                           |    IPv4-Encrypted-DNS/     |
-       |<--------------------------o    IPv6-Encrypted-DNS      |
-       | Redirect to (ADN,         |                            |
-       |        IP addresses,      |                            |
-       |        service parameters)|                            |
-       |                           |                            |
-
-                   Figure 4: Example of DoH Redirection
-
-   Another use case for the RADIUS extensions defined in this document
-   is to return a customized service parameters (e.g., different DoH
-   URI) as a function of the service/policies/preferences that are set
-   by a home network admin.  How an admin indicates its
-   service/policies/preferences to an AAA server is out of scope.
-
 Authors' Addresses
 
    Mohamed Boucadair
@@ -817,6 +771,19 @@ Authors' Addresses
    France
 
    Email: mohamed.boucadair@orange.com
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires December 19, 2021              [Page 14]
+
+Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
    Tirumaleswar Reddy
@@ -837,4 +804,37 @@ Authors' Addresses
 
 
 
-Boucadair & Reddy       Expires December 12, 2021              [Page 15]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires December 19, 2021              [Page 15]

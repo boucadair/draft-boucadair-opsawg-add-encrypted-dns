@@ -186,9 +186,11 @@
                DHCPv4                      RADIUS]]></artwork>
         </figure></t>
 
-      <t>Other deployment scenarios can be envisaged (e.g., <xref
-      target="app"></xref>), however it is out of the scope of this document
-      to provide a comprehensive list of those deployments.</t>
+      <t>Other deployment scenarios can be envisaged such as returning
+      customized service parameters (e.g., different DoH URI) as a function of
+      the service/policies/preferences that are set by a home network admin.
+      How an admin indicates its service/policies/preferences to an AAA server
+      is out of scope. </t>
 
       <t>This document adheres to <xref target="RFC8044"></xref> for defining
       the new attributes.</t>
@@ -486,7 +488,7 @@
       <t>This document targets deployments where a trusted relationship is in
       place between the RADIUS client and server with communication optionally
       secured by IPsec or Transport Layer Security (TLS) <xref
-      target="RFC6614"></xref>. </t>
+      target="RFC6614"></xref>.</t>
 
       <t>Security considerations (including traffic theft) are discussed in
       <xref target="I-D.ietf-add-dnr"></xref>.</t>
@@ -601,44 +603,5 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
 
       <?rfc include='reference.RFC.6614'?>
     </references>
-
-    <section anchor="app" title="Other Usages of the Attributes">
-      <t>For the particular case of DoH <xref target="RFC8484"></xref>, the
-      attributes defined in <xref target="att"></xref> can also be used for
-      many purposes. For example, a DoH server may redirect DoH clients to
-      other DoH servers (e.g., local forwarders hosted by a CPE). To that aim,
-      when a DoH query is received from a DoH client, the DoH servers
-      interacts with an AAA server to check whether redirection should be
-      enabled for this client. If such redirection is to be enabled, the AAA
-      server returns IPv4-Encrypted-DNS and/or IPv6-Encrypted-DNS Attributes
-      that will be used to populate the DoH redirection response that will
-      then be sent to the DoH client. The DoH client may contact the DoH
-      server using the information supplied in the redirection response.</t>
-
-      <t><figure align="center" anchor="doh-redirect"
-          title="Example of DoH Redirection">
-          <artwork><![CDATA[+-------+                   +-------+                    +-------+
-|  DoH  |                   |  DoH  |                    |  AAA  |
-|Client |                   |Server |                    |Server |
-+---+---+                   +---+---+                    +---+---+
-    |                           |                            |
-    o---DoH Query-------------->|                            |
-    |                           o---Access-Request---------->|
-    |                           |<--Access-Accept------------o
-    |                           |    IPv4-Encrypted-DNS/     |
-    |<--------------------------o    IPv6-Encrypted-DNS      |
-    | Redirect to (ADN,         |                            |
-    |        IP addresses,      |                            |  
-    |        service parameters)|                            | 
-    |                           |                            | 
-]]></artwork>
-        </figure></t>
-
-      <t>Another use case for the RADIUS extensions defined in this document
-      is to return a customized service parameters (e.g., different DoH URI)
-      as a function of the service/policies/preferences that are set by a home
-      network admin. How an admin indicates its service/policies/preferences
-      to an AAA server is out of scope. </t>
-    </section>
   </back>
 </rfc>
