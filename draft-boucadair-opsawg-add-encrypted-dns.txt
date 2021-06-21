@@ -5,8 +5,8 @@
 opsawg                                                      M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: December 19, 2021                                        McAfee
-                                                           June 17, 2021
+Expires: December 23, 2021                                        McAfee
+                                                           June 21, 2021
 
 
                   RADIUS Extensions for Encrypted DNS
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 19, 2021.
+   This Internet-Draft will expire on December 23, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 1]
+Boucadair & Reddy       Expires December 23, 2021               [Page 1]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 2]
+Boucadair & Reddy       Expires December 23, 2021               [Page 2]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -165,7 +165,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 3]
+Boucadair & Reddy       Expires December 23, 2021               [Page 3]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -221,7 +221,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 4]
+Boucadair & Reddy       Expires December 23, 2021               [Page 4]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -242,10 +242,10 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
       are DNS-over-TLS (DoT) [RFC7858], DNS-over-HTTPS (DoH) [RFC8484],
       or DNS-over-QUIC (DoQ) [I-D.ietf-dprive-dnsoquic].
 
-   *-Encrypted-DNS  refers to IPv6-Encrypted-DNS and IPv4-Encrypted-DNS
+   *-Encrypted-DNS:  refers to IPv6-Encrypted-DNS and IPv4-Encrypted-DNS
       Attributes.
 
-   Encrypted-DNS-*  refers to any of these attributes: Encrypted-DNS-
+   Encrypted-DNS-*:  refers to any of these attributes: Encrypted-DNS-
       ADN, Encrypted-DNS-IPv6-Address, Encrypted-DNS-IPv4-Address, and
       Encrypted-DNS-SvcParams.
 
@@ -277,7 +277,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 5]
+Boucadair & Reddy       Expires December 23, 2021               [Page 5]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -333,7 +333,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 6]
+Boucadair & Reddy       Expires December 23, 2021               [Page 6]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -389,7 +389,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 7]
+Boucadair & Reddy       Expires December 23, 2021               [Page 7]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -445,7 +445,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 8]
+Boucadair & Reddy       Expires December 23, 2021               [Page 8]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -501,7 +501,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021               [Page 9]
+Boucadair & Reddy       Expires December 23, 2021               [Page 9]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -536,7 +536,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
    Data Type
 
-      The Encrypted-DNS-SvcParams TLV is of type text (Section 3.4 of
+      The Encrypted-DNS-SvcParams TLV is of type string (Section 3.5 of
       [RFC8044]).
 
    TLV-Value
@@ -557,7 +557,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021              [Page 10]
+Boucadair & Reddy       Expires December 23, 2021              [Page 10]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -613,7 +613,7 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021              [Page 11]
+Boucadair & Reddy       Expires December 23, 2021              [Page 11]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -629,13 +629,15 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
      1      Encrypted-DNS-ADN            text         Section 3.3.1
      2      Encrypted-DNS-IPv6-Address   ipv6addr     Section 3.3.2
      3      Encrypted-DNS-IPv4-Address   ipv4addr     Section 3.3.3
-     4      Encrypted-DNS-SvcParams      text         Section 3.3.4
+     4      Encrypted-DNS-SvcParams      string       Section 3.3.4
      5-255  Unassigned
 
 7.  Acknowledgements
 
    Thanks to Christian Jacquenet, Neil Cook, and Alan Dekok for the
    review and suggestions.
+
+   Thanks to Ben Schwartz for the comment.
 
 8.  References
 
@@ -663,16 +665,18 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
               RFC 2865, DOI 10.17487/RFC2865, June 2000,
               <https://www.rfc-editor.org/info/rfc2865>.
 
-   [RFC6158]  DeKok, A., Ed. and G. Weber, "RADIUS Design Guidelines",
-              BCP 158, RFC 6158, DOI 10.17487/RFC6158, March 2011,
-              <https://www.rfc-editor.org/info/rfc6158>.
 
 
 
-Boucadair & Reddy       Expires December 19, 2021              [Page 12]
+
+Boucadair & Reddy       Expires December 23, 2021              [Page 12]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
+
+   [RFC6158]  DeKok, A., Ed. and G. Weber, "RADIUS Design Guidelines",
+              BCP 158, RFC 6158, DOI 10.17487/RFC6158, March 2011,
+              <https://www.rfc-editor.org/info/rfc6158>.
 
    [RFC6890]  Cotton, M., Vegoda, L., Bonica, R., Ed., and B. Haberman,
               "Special-Purpose IP Address Registries", BCP 153,
@@ -714,21 +718,23 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
               Support", RFC 2868, DOI 10.17487/RFC2868, June 2000,
               <https://www.rfc-editor.org/info/rfc2868>.
 
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires December 23, 2021              [Page 13]
+
+Internet-Draft          RADIUS for Encrypted DNS               June 2021
+
+
    [RFC4014]  Droms, R. and J. Schnizlein, "Remote Authentication Dial-
               In User Service (RADIUS) Attributes Suboption for the
               Dynamic Host Configuration Protocol (DHCP) Relay Agent
               Information Option", RFC 4014, DOI 10.17487/RFC4014,
               February 2005, <https://www.rfc-editor.org/info/rfc4014>.
-
-
-
-
-
-
-Boucadair & Reddy       Expires December 19, 2021              [Page 13]
-
-Internet-Draft          RADIUS for Encrypted DNS               June 2021
-
 
    [RFC5176]  Chiba, M., Dommety, G., Eklund, M., Mitton, D., and B.
               Aboba, "Dynamic Authorization Extensions to Remote
@@ -775,13 +781,7 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-Boucadair & Reddy       Expires December 19, 2021              [Page 14]
+Boucadair & Reddy       Expires December 23, 2021              [Page 14]
 
 Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
@@ -837,4 +837,4 @@ Internet-Draft          RADIUS for Encrypted DNS               June 2021
 
 
 
-Boucadair & Reddy       Expires December 19, 2021              [Page 15]
+Boucadair & Reddy       Expires December 23, 2021              [Page 15]

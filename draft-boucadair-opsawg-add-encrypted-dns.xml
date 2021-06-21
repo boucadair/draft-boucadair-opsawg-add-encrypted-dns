@@ -190,7 +190,7 @@
       customized service parameters (e.g., different DoH URI) as a function of
       the service/policies/preferences that are set by a home network admin.
       How an admin indicates its service/policies/preferences to an AAA server
-      is out of scope. </t>
+      is out of scope.</t>
 
       <t>This document adheres to <xref target="RFC8044"></xref> for defining
       the new attributes.</t>
@@ -213,10 +213,10 @@
           DNS-over-QUIC (DoQ) <xref
           target="I-D.ietf-dprive-dnsoquic"></xref>.</t>
 
-          <t hangText="*-Encrypted-DNS">refers to IPv6-Encrypted-DNS and
+          <t hangText="*-Encrypted-DNS:">refers to IPv6-Encrypted-DNS and
           IPv4-Encrypted-DNS Attributes.</t>
 
-          <t hangText="Encrypted-DNS-*">refers to any of these attributes:
+          <t hangText="Encrypted-DNS-*:">refers to any of these attributes:
           Encrypted-DNS-ADN, Encrypted-DNS-IPv6-Address,
           Encrypted-DNS-IPv4-Address, and Encrypted-DNS-SvcParams.</t>
         </list></t>
@@ -264,7 +264,7 @@
         However, the server is not required to honor such a preference.</t>
 
         <t>The IPv6-Encrypted-DNS Attribute MAY appear in a RADIUS CoA-Request
-        packet.</t>
+        packet. </t>
 
         <t>The IPv6-Encrypted-DNS Attribute MAY appear in a RADIUS
         Accounting-Request packet.</t>
@@ -459,8 +459,8 @@
             </list></t>
 
           <t>Data Type<list style="empty">
-              <t>The Encrypted-DNS-SvcParams TLV is of type text (Section 3.4
-              of <xref target="RFC8044"></xref>).</t>
+              <t>The Encrypted-DNS-SvcParams TLV is of type string (Section
+              3.5 of <xref target="RFC8044"></xref>).</t>
             </list></t>
 
           <t>TLV-Value<list style="empty">
@@ -544,7 +544,7 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
   1      Encrypted-DNS-ADN            text         Section 3.3.1
   2      Encrypted-DNS-IPv6-Address   ipv6addr     Section 3.3.2
   3      Encrypted-DNS-IPv4-Address   ipv4addr     Section 3.3.3
-  4      Encrypted-DNS-SvcParams      text         Section 3.3.4
+  4      Encrypted-DNS-SvcParams      string       Section 3.3.4
   5-255  Unassigned
 ]]></artwork>
           </figure></t>
@@ -554,6 +554,8 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>Thanks to Christian Jacquenet, Neil Cook, and Alan Dekok for the
       review and suggestions.</t>
+
+      <t>Thanks to Ben Schwartz for the comment. </t>
     </section>
   </middle>
 
