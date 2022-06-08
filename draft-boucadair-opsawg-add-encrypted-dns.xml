@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="std" docName="draft-boucadair-opsawg-add-encrypted-dns-04"
+<rfc category="std" docName="draft-boucadair-opsawg-add-encrypted-dns-05"
      ipr="trust200902">
   <front>
     <title abbrev="RADIUS for Encrypted DNS">RADIUS Extensions for Encrypted
@@ -37,7 +37,7 @@
     </author>
 
     <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
-      <organization abbrev="McAfee">McAfee, Inc.</organization>
+      <organization>Akamai</organization>
 
       <address>
         <postal>
@@ -83,20 +83,19 @@
       <t>With the advent of Encrypted DNS (e.g., DNS-over-HTTPS (DoH) <xref
       target="RFC8484"></xref>, DNS-over-TLS (DoT) <xref
       target="RFC7858"></xref>, or DNS-over-QUIC (DoQ) <xref
-      target="I-D.ietf-dprive-dnsoquic"></xref>), additional means are
-      required to provision hosts with network-designated Encrypted DNS. To
-      fill that void, <xref target="I-D.ietf-add-dnr"></xref> leverages
-      existing protocols such as DHCP and IPv6 Router Advertisement to provide
-      hosts with the required information to connect to an Encrypted DNS
-      server. However, there are no RADIUS attributes that can be used to
-      populate the discovery messages discussed in <xref
-      target="I-D.ietf-add-dnr"></xref>.</t>
+      target="RFC9250"></xref>), additional means are required to provision
+      hosts with network-designated Encrypted DNS. To fill that void, <xref
+      target="I-D.ietf-add-dnr"></xref> leverages existing protocols such as
+      DHCP and IPv6 Router Advertisement to provide hosts with the required
+      information to connect to an Encrypted DNS server. However, there are no
+      RADIUS attributes that can be used to populate the discovery messages
+      discussed in <xref target="I-D.ietf-add-dnr"></xref>.</t>
 
       <t>This document specifies two new RADIUS attributes: IPv6-Encrypted-DNS
       (<xref target="v6"></xref>) and IPv4-Encrypted-DNS (<xref
-      target="v4"></xref>) Attributes. Note that two attributes are specified
-      in order to accommodate both IPv4 and IPv6 deployment contexts while
-      taking into account the constraints in Section 3.4 of <xref
+      target="v4"></xref>) Attributes. These two attributes are specified in
+      order to accommodate both IPv4 and IPv6 deployment contexts while taking
+      into account the constraints in Section 3.4 of <xref
       target="RFC6158"></xref>.</t>
 
       <t>Typical deployment scenarios are similar to those described, for
@@ -111,7 +110,7 @@
       capabilities.</t>
 
       <t><figure align="center" anchor="ex"
-          title="Example of RADIUS IPv6 Encrypted DNS">
+          title="An Example of RADIUS IPv6 Encrypted DNS Exchange">
           <artwork><![CDATA[+-------------+           +-------------+             +-------+
 |     CPE     |           |     NAS     |             |  AAA  |
 |DHCPv6 client|           |DHCPv6 server|             |Server |
@@ -135,18 +134,19 @@
         </figure></t>
 
       <t>Upon receipt of the DHCPv6 Solicit message from a CPE, the NAS sends
-      a RADIUS Access-Request message to the AAA server. Once the AAA server
-      receives the request, it replies with an Access-Accept message (possibly
-      after having sent a RADIUS Access-Challenge message and assuming the CPE
-      is entitled to connect to the network) that carries a list of parameters
-      to be used for this session, and which include the Encrypted DNS
-      information. The content of the IPv6-Encrypted-DNS Attribute is then
-      used by the NAS to complete the DHCPv6 procedure that the CPE initiated
-      to retrieve information about the encrypted DNS service to use. The
-      procedure defined in <xref target="I-D.ietf-add-dnr"></xref> is thus
-      followed between the DHCPv6 client and the DHCPv6 server. The same
-      procedure is followed between the DHCPv6 client on endpoints serviced by
-      the CPE and the DHCPv6 server on CPE.</t>
+      a RADIUS Access-Request message to the Authentication, Authorization,
+      and Accounting (AAA) server. Once the AAA server receives the request,
+      it replies with an Access-Accept message (possibly after having sent a
+      RADIUS Access-Challenge message and assuming the CPE is entitled to
+      connect to the network) that carries a list of parameters to be used for
+      this session, and which include the Encrypted DNS information. The
+      content of the IPv6-Encrypted-DNS Attribute is then used by the NAS to
+      complete the DHCPv6 procedure that the CPE initiated to retrieve
+      information about the encrypted DNS service to use. The procedure
+      defined in <xref target="I-D.ietf-add-dnr"></xref> is thus followed
+      between the DHCPv6 client and the DHCPv6 server. The same procedure is
+      followed between the DHCPv6 client on endpoints serviced by the CPE and
+      the DHCPv6 server on CPE.</t>
 
       <t>Upon change of the any Encrypted DNS-related information (e.g., ADN,
       IPv6 address), the RADIUS server sends a RADIUS CoA message <xref
@@ -158,11 +158,11 @@
       message exchange with the DHCPv6 server.</t>
 
       <t><xref target="ex2"></xref> shows another example where a CPE is
-      provided an Encrypted DNS server, but the CPE uses DHCPv4 to retrieve
-      its encrypted DNS server.</t>
+      provided with an Encrypted DNS server, but the CPE uses DHCPv4 to
+      retrieve its Encrypted DNS server.</t>
 
       <t><figure align="center" anchor="ex2"
-          title="Example of RADIUS IPv4 Encrypted DNS">
+          title="An Example of RADIUS IPv4 Encrypted DNS Exchange">
           <artwork><![CDATA[+-------------+           +-------------+             +-------+
 |     CPE     |           |     NAS     |             |  AAA  |
 |DHCPv4 client|           |DHCPv4 server|             |Server |
@@ -186,7 +186,7 @@
                DHCPv4                      RADIUS]]></artwork>
         </figure></t>
 
-      <t>Other deployment scenarios can be envisaged such as returning
+      <t>Other deployment scenarios can be envisaged, such as returning
       customized service parameters (e.g., different DoH URI) as a function of
       the service/policies/preferences that are set by a home network
       administrator. How an administrator indicates its
@@ -200,7 +200,7 @@
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
       "OPTIONAL" in this document are to be interpreted as described in BCP 14
-      <xref target="RFC2119"></xref><xref target="RFC8174"></xref> when, and
+      <xref target="RFC2119"></xref> <xref target="RFC8174"></xref> when, and
       only when, they appear in all capitals, as shown here.</t>
 
       <t>This document makes use of the terms defined in <xref
@@ -210,14 +210,13 @@
           are transported over an encrypted channel. Examples of encrypted DNS
           are DNS-over-TLS (DoT) <xref target="RFC7858"></xref>,
           DNS-over-HTTPS (DoH) <xref target="RFC8484"></xref>, or
-          DNS-over-QUIC (DoQ) <xref
-          target="I-D.ietf-dprive-dnsoquic"></xref>.</t>
+          DNS-over-QUIC (DoQ) <xref target="RFC9250"></xref>.</t>
 
           <t hangText="*-Encrypted-DNS:">refers to IPv6-Encrypted-DNS and
           IPv4-Encrypted-DNS Attributes.</t>
 
-          <t hangText="Encrypted-DNS-*:">refers to any of these attributes:
-          Encrypted-DNS-ADN, Encrypted-DNS-IPv6-Address,
+          <t hangText="Encrypted-DNS-*:">refers to any of the following
+          attributes: Encrypted-DNS-ADN, Encrypted-DNS-IPv6-Address,
           Encrypted-DNS-IPv4-Address, Encrypted-DNS-SvcParams, and
           Encrypted-DNS-SvcPriority.</t>
         </list></t>
@@ -299,9 +298,12 @@
                 Encrypted-DNS-ADN TLV (<xref target="adn"></xref>).</t>
 
                 <t hangText="Encrypted-DNS-IPv6-Address TLV:">The
-                IPv6-Encrypted-DNS Attribute MUST include one or multiple
+                IPv6-Encrypted-DNS Attribute SHOULD include one or multiple
                 instances of Encrypted-DNS-IPv6-Address TLV (<xref
-                target="v6locator"></xref>).</t>
+                target="v6locator"></xref>). In contexts where putting
+                additional complexity on requesting hosts is acceptable,
+                returning an ADN only (that is, no Encrypted-DNS-IPv6-Address
+                TLV is returned) can be considered.</t>
 
                 <t hangText="Encrypted-DNS-SvcParams TLV:">The
                 IPv6-Encrypted-DNS Attribute SHOULD include one instance of
@@ -372,9 +374,12 @@
                 Encrypted-DNS-ADN TLV (<xref target="adn"></xref>).</t>
 
                 <t hangText="Encrypted-DNS-IPv4-Address TLV:">The
-                IPv4-Encrypted-DNS Attribute MUST include one or multiple
+                IPv4-Encrypted-DNS Attribute SHOULD include one or multiple
                 instances of Encrypted-DNS-IPv4-Address TLV (<xref
-                target="v4locator"></xref>).</t>
+                target="v4locator"></xref>). In contexts where putting
+                additional complexity on requesting hosts is acceptable,
+                returning an ADN only (that is, no Encrypted-DNS-IPv4-Address
+                TLV is returned) can be considered.</t>
 
                 <t hangText="Encrypted-DNS-SvcParams TLV:">The
                 IPv4-Encrypted-DNS Attribute SHOULD include one instance of
@@ -480,12 +485,28 @@
 
           <t>TLV-Value<list style="empty">
               <t>Specifies a set of service parameters that are encoded
-              following the rules in <xref
-              target="I-D.ietf-dnsop-svcb-https"></xref>. Service parameters
-              may include, for example, a list of ALPN protocol identifiers or
-              alternate port numbers. <vspace blankLines="1" />The service
-              parameters MUST NOT include "ipv4hint" or "ipv6hint" SvcParams
-              as they are superseded by the included IP addresses.</t>
+              following the rules in Section 2.1 of <xref
+              target="I-D.ietf-dnsop-svcb-https"></xref>. At least the
+              following service parameters are RECOMMENDED to be supported by
+              an implementation:<list style="hanging">
+                  <t hangText="alpn:">Used to indicate the set of supported
+                  protocols (Section 7.1 of <xref
+                  target="I-D.ietf-dnsop-svcb-https"></xref>).</t>
+
+                  <t hangText="port:">Used to indicate the target port number
+                  for the encrypted DNS connection (Section 7.2 of <xref
+                  target="I-D.ietf-dnsop-svcb-https"></xref>).</t>
+
+                  <t hangText="ech:">Used to enable Encrypted ClientHello
+                  (ECH) (Section 7.3 of <xref
+                  target="I-D.ietf-dnsop-svcb-https"></xref>).</t>
+
+                  <t hangText="dohpath:">Used to supply a relative DoH URI
+                  Template (Section 5.1 of <xref
+                  target="I-D.ietf-add-svcb-dns"></xref>).</t>
+                </list><vspace blankLines="1" />The service parameters MUST
+              NOT include "ipv4hint" or "ipv6hint" SvcParams as they are
+              superseded by the included IP addresses.</t>
             </list></t>
 
           <t>This TLV is identified as 241.TBA1.TBA6 when included in the
@@ -511,7 +532,9 @@
           <t>TLV-Value<list style="empty">
               <t>Specifies the priority (unsigned16) of this *-Encrypted-DNS
               instance compared to other instances, right justified, and the
-              unused bits in this field MUST be set to zero. </t>
+              unused bits in this field MUST be set to zero. The encoding MUST
+              follow the rules specified in Section 2.4.1 of <xref
+              target="I-D.ietf-dnsop-svcb-https"></xref>.</t>
             </list></t>
 
           <t>This TLV is identified as 241.TBA1.TBA7 when included in the
@@ -597,7 +620,7 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
       <t>Thanks to Christian Jacquenet, Neil Cook, and Alan Dekok for the
       review and suggestions.</t>
 
-      <t>Thanks to Ben Schwartz for the comment.</t>
+      <t>Thanks to Ben Schwartz for the comments.</t>
     </section>
   </middle>
 
@@ -615,9 +638,11 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
 
       <?rfc include='reference.RFC.8174'?>
 
-      <?rfc include='reference.I-D.ietf-add-dnr'?>
-
       <?rfc include='reference.I-D.ietf-dnsop-svcb-https'?>
+
+      <?rfc include='reference.I-D.ietf-add-svcb-dns'?>
+
+      <?rfc include='reference.I-D.ietf-add-dnr'?>
 
       <?rfc include='reference.RFC.6929'?>
 
@@ -629,8 +654,6 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
 
       <?rfc include='reference.RFC.6911'?>
 
-      <?rfc include='reference.RFC.2131'?>
-
       <?rfc include='reference.RFC.5176'?>
 
       <?rfc include='reference.RFC.4014'?>
@@ -641,7 +664,7 @@ CoA-Request CoA-ACK CoA-NACK #   Attribute
 
       <?rfc include='reference.RFC.7858'?>
 
-      <?rfc include='reference.I-D.ietf-dprive-dnsoquic'?>
+      <?rfc include='reference.RFC.9250'?>
 
       <?rfc include='reference.RFC.2868'?>
 
